@@ -6,6 +6,8 @@ import (
 	"io"
 	"os"
 	"unicode/utf8"
+
+	myPattern "github.com/codecrafters-io/grep-starter-go/app/pattern"
 )
 
 // Ensures gofmt doesn't remove the "bytes" import above (feel free to remove this!)
@@ -40,6 +42,10 @@ func main() {
 }
 
 func matchLine(line []byte, pattern string) (bool, error) {
+	if myPattern.ContainsDigitCharacterClass(pattern) {
+		return myPattern.ContainsDigit(line), nil
+	}
+
 	if utf8.RuneCountInString(pattern) != 1 {
 		return false, fmt.Errorf("unsupported pattern: %q", pattern)
 	}
