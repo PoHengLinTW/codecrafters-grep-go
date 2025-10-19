@@ -46,6 +46,10 @@ func matchLine(line []byte, pattern string) (bool, error) {
 		return myPattern.ContainsDigit(line), nil
 	}
 
+	if myPattern.ContainsWordCharacterClass(pattern) {
+		return myPattern.ContainsWord(line), nil
+	}
+
 	if utf8.RuneCountInString(pattern) != 1 {
 		return false, fmt.Errorf("unsupported pattern: %q", pattern)
 	}
