@@ -19,10 +19,10 @@ func ContainsNegativeCharacterGroup(input []byte, pattern string) bool {
 
 	for _, r := range string(input) {
 		_, ok := groupMap[r]
-		if ok {
-			return false
+		if !ok {
+			return true
 		}
 	}
 
-	return true
+	return false
 }
