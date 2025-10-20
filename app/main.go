@@ -7,7 +7,7 @@ import (
 	"os"
 	"unicode/utf8"
 
-	myPattern "github.com/codecrafters-io/grep-starter-go/app/pattern"
+	cg "github.com/codecrafters-io/grep-starter-go/app/pattern/charactergroup"
 )
 
 // Ensures gofmt doesn't remove the "bytes" import above (feel free to remove this!)
@@ -42,12 +42,12 @@ func main() {
 }
 
 func matchLine(line []byte, pattern string) (bool, error) {
-	if myPattern.ContainsDigitCharacterClass(pattern) {
-		return myPattern.ContainsDigit(line), nil
+	if cg.ContainsDigitCharacterClass(pattern) {
+		return cg.ContainsDigit(line), nil
 	}
 
-	if myPattern.ContainsWordCharacterClass(pattern) {
-		return myPattern.ContainsWord(line), nil
+	if cg.ContainsWordCharacterClass(pattern) {
+		return cg.ContainsWord(line), nil
 	}
 
 	if utf8.RuneCountInString(pattern) != 1 {
