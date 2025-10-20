@@ -6,8 +6,8 @@ import (
 
 const WordCharacterClass = `\w`
 
-func ContainsWordCharacterClass(input string) bool {
-	return strings.Contains(input, WordCharacterClass)
+func ContainsWordCharacterClass(pattern string) bool {
+	return strings.Contains(pattern, WordCharacterClass)
 }
 
 func ContainsWord(input []byte) bool {

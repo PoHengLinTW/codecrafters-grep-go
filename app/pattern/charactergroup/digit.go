@@ -6,8 +6,8 @@ import (
 
 const DigitCharacterClass = `\d`
 
-func ContainsDigitCharacterClass(input string) bool {
-	return strings.Contains(input, DigitCharacterClass)
+func ContainsDigitCharacterClass(pattern string) bool {
+	return strings.Contains(pattern, DigitCharacterClass)
 }
 
 func ContainsDigit(input []byte) bool {
