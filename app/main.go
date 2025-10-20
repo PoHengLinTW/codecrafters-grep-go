@@ -50,6 +50,10 @@ func matchLine(line []byte, pattern string) (bool, error) {
 		return cg.ContainsWord(line), nil
 	}
 
+	if cg.IsNegativeCharacterGroup(pattern) {
+		return cg.ContainsNegativeCharacterGroup(line, pattern), nil
+	}
+
 	if cg.IsPositiveCharacterGroup(pattern) {
 		return cg.ContainsPositiveCharacterGroup(line, pattern), nil
 	}
