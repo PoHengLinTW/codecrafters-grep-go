@@ -50,6 +50,10 @@ func matchLine(line []byte, pattern string) (bool, error) {
 		return cg.ContainsWord(line), nil
 	}
 
+	if cg.IsPositiveCharacterGroup(pattern) {
+		return cg.ContainsPositiveCharacterGroup(line, pattern), nil
+	}
+
 	if utf8.RuneCountInString(pattern) != 1 {
 		return false, fmt.Errorf("unsupported pattern: %q", pattern)
 	}
