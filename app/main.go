@@ -5,9 +5,8 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"unicode/utf8"
 
-	cg "github.com/codecrafters-io/grep-starter-go/app/pattern/charactergroup"
+	patterns "github.com/codecrafters-io/grep-starter-go/app/pattern"
 )
 
 // Ensures gofmt doesn't remove the "bytes" import above (feel free to remove this!)
@@ -28,6 +27,11 @@ func main() {
 		os.Exit(2)
 	}
 
+	// Remove trailing newline if present (like grep does)
+	if len(line) > 0 && line[len(line)-1] == '\n' {
+		line = line[:len(line)-1]
+	}
+
 	ok, err := matchLine(line, pattern)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "error: %v\n", err)
@@ -42,27 +46,11 @@ func main() {
 }
 
 func matchLine(line []byte, pattern string) (bool, error) {
-	if cg.ContainsDigitCharacterClass(pattern) {
-		return cg.ContainsDigit(line), nil
+	nfa, err := patterns.ParsePattern(pattern)
+
+	if err != nil {
+		return false, err
 	}
 
-	if cg.ContainsWordCharacterClass(pattern) {
-		return cg.ContainsWord(line), nil
-	}
-
-	if cg.IsNegativeCharacterGroup(pattern) {
-		return cg.ContainsNegativeCharacterGroup(line, pattern), nil
-	}
-
-	if cg.IsPositiveCharacterGroup(pattern) {
-		return cg.ContainsPositiveCharacterGroup(line, pattern), nil
-	}
-
-	if utf8.RuneCountInString(pattern) != 1 {
-		return false, fmt.Errorf("unsupported pattern: %q", pattern)
-	}
-
-	ok := bytes.ContainsAny(line, pattern)
-
-	return ok, nil
+	return nfa.Matches(string(line)), nil
 }
